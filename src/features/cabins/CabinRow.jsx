@@ -1,28 +1,30 @@
 import styled from 'styled-components';
 import { HiPencil, HiTrash, HiSquare2Stack } from 'react-icons/hi2';
 
-import Menus from 'ui/Menus';
-import Modal from 'ui/Modal';
-import ConfirmDelete from 'ui/ConfirmDelete';
-import Table from 'ui/Table';
+// import Menus from 'ui/Menus';
+// import Modal from 'ui/Modal';
+// import ConfirmDelete from 'ui/ConfirmDelete';
+// import Table from 'ui/Table';
 
-import { formatCurrency } from 'utils/helpers';
-import { useDeleteCabin } from './useDeleteCabin';
-import { useCreateCabin } from './useCreateCabin';
-import CreateCabinForm from './CreateCabinForm';
+import { formatCurrency } from '../../utils/helpers.js';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteCabin } from '../../services/apiCabins.js';
+// import { useDeleteCabin } from './useDeleteCabin';
+// import { useCreateCabin } from './useCreateCabin';
+// import CreateCabinForm from './CreateCabinForm';
 
 // v1
-// const TableRow = styled.div`
-//   display: grid;
-//   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-//   column-gap: 2.4rem;
-//   align-items: center;
-//   padding: 1.4rem 2.4rem;
+const TableRow = styled.div`
+  display: grid;
+  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
+  column-gap: 2.4rem;
+  align-items: center;
+  padding: 1.4rem 2.4rem;
 
-//   &:not(:last-child) {
-//     border-bottom: 1px solid var(--color-grey-100);
-//   }
-// `;
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--color-grey-100);
+  }
+`;
 
 const Img = styled.img`
   display: block;
@@ -62,72 +64,93 @@ function CabinRow({ cabin }) {
     image,
     description,
   } = cabin;
+  const queryClient = useQueryClient();
+  const { isLoading: isDeleting, mutate } = useMutation({
+    // mutationFn: (id) => deleteCabin(id),
+    mutationFn: deleteCabin,
+    onSuccess: () => {
+      alert('cabin successfully deleted');
+      queryClient.invalidateQueries({
+        queryKey: ['cabins'],
+      });
+    },
+    onError: (err) => alert(err.message),
+  });
 
-  const { mutate: deleteCabin, isLoading: isDeleting } = useDeleteCabin();
-  const { mutate: createCabin } = useCreateCabin();
+  // const { mutate: deleteCabin, isLoading: isDeleting } = useDeleteCabin();
+  // const { mutate: createCabin } = useCreateCabin();
 
-  function handleDuplicate() {
-    createCabin({
-      name: `${name} duplicate`,
-      maxCapacity,
-      regularPrice,
-      discount,
-      image,
-      description,
-    });
-  }
+  // function handleDuplicate() {
+  //   createCabin({
+  //     name: `${name} duplicate`,
+  //     maxCapacity,
+  //     regularPrice,
+  //     discount,
+  //     image,
+  //     description,
+  //   });
+  // }
 
   return (
-    <Table.Row role="row">
-      <Img src={image} alt={`Cabin ${name}`} />
-
+    <TableRow role="row">
+      <Img src={image} />
       <Cabin>{name}</Cabin>
-
       <div>Fits up to {maxCapacity} guests</div>
-
       <Price>{formatCurrency(regularPrice)}</Price>
+      <Discount>{formatCurrency(discount)}</Discount>
+      <button onClick={() => mutate(cabinId)} disabled={isDeleting}>
+        Delete
+      </button>
+    </TableRow>
+    // <Table.Row role="row">
 
-      {discount ? (
-        <Discount>{formatCurrency(discount)}</Discount>
-      ) : (
-        <span>&mdash;</span>
-      )}
+    //
 
-      <Modal>
+    //
+
+    //
+
+    //   {discount ? (
+    //
+    //   ) : (
+    //     <span>&mdash;</span>
+    //   )}
+
+    /* <Modal>
         <Menus.Menu>
           <Menus.Toggle id={cabinId} />
 
           <Menus.List id={cabinId}>
             <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>
               Duplicate
-            </Menus.Button>
-
+            </Menus.Button> */
+    /* 
             <Modal.Toggle opens="edit">
               <Menus.Button icon={<HiPencil />}>Edit cabin</Menus.Button>
-            </Modal.Toggle>
+            </Modal.Toggle> */
 
-            {/* Now it gets a bit confusing... */}
-            <Modal.Toggle opens="delete">
+    /* Now it gets a bit confusing... */
+    /* <Modal.Toggle opens="delete">
               <Menus.Button icon={<HiTrash />}>Delete cabin</Menus.Button>
             </Modal.Toggle>
           </Menus.List>
-        </Menus.Menu>
+        </Menus.Menu> */
 
-        {/* This needs to be OUTSIDE of the menu, which in no problem. The compound component gives us this flexibility */}
-        <Modal.Window name="edit">
+    /* This needs to be OUTSIDE of the menu, which in no problem. The compound component gives us this flexibility */
+    /* <Modal.Window name="edit">
           <CreateCabinForm cabinToEdit={cabin} />
-        </Modal.Window>
+        </Modal.Window> */
 
-        <Modal.Window name="delete">
+    /* <Modal.Window name="delete">
           <ConfirmDelete
             resource="cabin"
             onConfirm={() => deleteCabin(cabinId)}
             disabled={isDeleting}
           />
         </Modal.Window>
-      </Modal>
+      </Modal> */
 
-      {/* <div>
+    /* <div>
           <ButtonWithConfirm
             title='Delete cabin'
             description='Are you sure you want to delete this cabin? This action can NOT be undone.'
@@ -139,8 +162,8 @@ function CabinRow({ cabin }) {
           </ButtonWithConfirm>
   
           <Link to={`/cabins/${cabinId}`}>Details &rarr;</Link>
-        </div> */}
-    </Table.Row>
+        </div> */
+    /* </Table.Row> */
   );
 }
 
