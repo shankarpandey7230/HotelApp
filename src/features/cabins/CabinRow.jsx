@@ -7,8 +7,8 @@ import { HiPencil, HiTrash, HiSquare2Stack } from 'react-icons/hi2';
 // import Table from 'ui/Table';
 
 import { formatCurrency } from '../../utils/helpers.js';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteCabin } from '../../services/apiCabins.js';
+import { useQueryClient } from '@tanstack/react-query';
+// import { deleteCabin } from '../../services/apiCabins.js';
 // import { useDeleteCabin } from './useDeleteCabin';
 // import { useCreateCabin } from './useCreateCabin';
 // import CreateCabinForm from './CreateCabinForm';
@@ -64,32 +64,6 @@ function CabinRow({ cabin }) {
     image,
     description,
   } = cabin;
-  const queryClient = useQueryClient();
-  const { isLoading: isDeleting, mutate } = useMutation({
-    // mutationFn: (id) => deleteCabin(id),
-    mutationFn: deleteCabin,
-    onSuccess: () => {
-      alert('cabin successfully deleted');
-      queryClient.invalidateQueries({
-        queryKey: ['cabins'],
-      });
-    },
-    onError: (err) => alert(err.message),
-  });
-
-  // const { mutate: deleteCabin, isLoading: isDeleting } = useDeleteCabin();
-  // const { mutate: createCabin } = useCreateCabin();
-
-  // function handleDuplicate() {
-  //   createCabin({
-  //     name: `${name} duplicate`,
-  //     maxCapacity,
-  //     regularPrice,
-  //     discount,
-  //     image,
-  //     description,
-  //   });
-  // }
 
   return (
     <TableRow role="row">
@@ -98,9 +72,7 @@ function CabinRow({ cabin }) {
       <div>Fits up to {maxCapacity} guests</div>
       <Price>{formatCurrency(regularPrice)}</Price>
       <Discount>{formatCurrency(discount)}</Discount>
-      <button onClick={() => mutate(cabinId)} disabled={isDeleting}>
-        Delete
-      </button>
+      <button>Delete</button>
     </TableRow>
     // <Table.Row role="row">
 

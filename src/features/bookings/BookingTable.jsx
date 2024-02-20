@@ -28,13 +28,15 @@ import Empty from 'ui/Empty';
 
 // We want each table row to have a menu, and we only want one of them to be open at the same time. We also want this functionality to be reusable. We could add a openID state here to the table, but that wouldn't really be reusable... The best way is to use a compound component
 
-const BookingTable = () => {
+function BookingTable() {
   const { bookings, count, isLoading } = useBookings();
 
-  if (isLoading) return <Spinner></Spinner>;
+  if (isLoading) return <Spinner />;
   if (!bookings) return <Empty resource={'bookings'} />;
-  //   VIDEO stupid JS bug, just an example of course
+
+  // VIDEO stupid JS bug, just an example of course
   // null.toUpperCase();
+
   return (
     <Menus>
       {/* A beautiful API we created here! We could even have defined the widths on the columns in the table header individually, but this keeps it simpler, and I also really like it */}
@@ -66,6 +68,9 @@ const BookingTable = () => {
       </Table>
     </Menus>
   );
-};
+}
+
+// We could create yet another layer of abstraction on top of this. We could call this component just <Results>, like: Results({data, count, isLoading, columns, rowComponent}). Then <BookingTable> and ALL other tables would simply call that.
+// BUT, creating more abstractions also has a cost! More things to remember, more complex codebase to understand. Sometimes it's okay to just copy and paste instead of creating abstractions
 
 export default BookingTable;

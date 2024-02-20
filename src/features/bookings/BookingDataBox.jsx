@@ -16,7 +16,7 @@ import { Flag } from 'ui/Flag';
 
 const StyledBookingDataBox = styled.section`
   ${box} /* padding: 3.2rem 4rem; */
-overflow: hidden;
+  overflow: hidden;
 `;
 
 const Header = styled.header`
@@ -34,6 +34,7 @@ const Header = styled.header`
     height: 3.2rem;
     width: 3.2rem;
   }
+
   & div:first-child {
     display: flex;
     align-items: center;
@@ -41,27 +42,32 @@ const Header = styled.header`
     font-weight: 600;
     font-size: 1.8rem;
   }
+
   & span {
     font-family: 'Sono';
     font-size: 2rem;
     margin-left: 4px;
   }
 `;
+
 const Section = styled.section`
-  padding: 3.2rem, 4rem 1.2rem;
+  padding: 3.2rem 4rem 1.2rem;
 `;
+
 const Guest = styled.div`
   display: flex;
   align-items: center;
   gap: 1.2rem;
-  /* font-size:1.8rem */
+  /* font-size: 1.8rem; */
   margin-bottom: 1.6rem;
   color: var(--color-grey-500);
+
   & p:first-of-type {
     font-weight: 500;
     color: var(--color-grey-700);
   }
 `;
+
 const Price = styled.div`
   display: flex;
   align-items: center;
@@ -95,7 +101,7 @@ const Footer = styled.footer`
   text-align: right;
 `;
 
-const BookingDataBox = ({ booking }) => {
+function BookingDataBox({ booking }) {
   const {
     created_at,
     startDate,
@@ -118,29 +124,31 @@ const BookingDataBox = ({ booking }) => {
         <div>
           <HiOutlineHomeModern />
           <p>
-            {numNights} nights in cabin <span>{cabinName}</span>
+            {numNights} nights in Cabin <span>{cabinName}</span>
           </p>
         </div>
+
         <p>
-          {format(new Date(startDate), 'EEE, MM dd yyyy')}(
+          {format(new Date(startDate), 'EEE, MMM dd yyyy')} (
           {isToday(new Date(startDate))
             ? 'Today'
             : formatDistanceFromNow(startDate)}
           ) &mdash; {format(new Date(endDate), 'EEE, MMM dd yyyy')}
         </p>
       </Header>
+
       <Section>
         <Guest>
           {countryFlag && <Flag src={countryFlag} alt={`Flag of ${country}`} />}
           <p>
-            {guestName}
-            {numGuests > 1 ? `+ ${numGuests - 1}guests` : ''}
+            {guestName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ''}
           </p>
-          <span>&bull</span>
+          <span>&bull;</span>
           <p>{email}</p>
-          <span>&bull</span>
-          <p>National ID: {nationalID}</p>
+          <span>&bull;</span>
+          <p>National ID {nationalID}</p>
         </Guest>
+
         {observations && (
           <DataItem
             icon={<HiOutlineChatBubbleBottomCenterText />}
@@ -149,25 +157,30 @@ const BookingDataBox = ({ booking }) => {
             {observations}
           </DataItem>
         )}
+
         <DataItem icon={<HiOutlineCheckCircle />} label="Breakfast included?">
           {hasBreakfast ? 'Yes' : 'No'}
         </DataItem>
+
         <Price isPaid={isPaid}>
-          <DataItem icon={<HiOutlineCurrencyDollar />} label={`Total Price`}>
+          <DataItem icon={<HiOutlineCurrencyDollar />} label={`Total price`}>
             {formatCurrency(totalPrice)}
+
             {hasBreakfast &&
-              `(${formatCurrency(cabinPrice)} cabin +${formatCurrency(
+              ` (${formatCurrency(cabinPrice)} cabin + ${formatCurrency(
                 extrasPrice
               )} breakfast)`}
           </DataItem>
+
           <p>{isPaid ? 'Paid' : 'Will pay at property'}</p>
         </Price>
       </Section>
+
       <Footer>
         <p>Booked {format(new Date(created_at), 'EEE, MMM dd yyyy, p')}</p>
       </Footer>
     </StyledBookingDataBox>
   );
-};
+}
 
 export default BookingDataBox;

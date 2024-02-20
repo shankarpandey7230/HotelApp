@@ -4,11 +4,11 @@ import Form from '../../ui/Form';
 import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 
-const LoginForm = () => {
+function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = () => {};
+  function handleSubmit() {}
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -16,6 +16,7 @@ const LoginForm = () => {
         <Input
           type="email"
           id="email"
+          // This makes this form better for password managers
           autoComplete="username"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -35,6 +36,6 @@ const LoginForm = () => {
       </FormRow>
     </Form>
   );
-};
+}
 
 export default LoginForm;
