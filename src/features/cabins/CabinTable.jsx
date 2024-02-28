@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
-import { getCabins } from '../../services/apiCabins';
+
 import CabinRow from '../../features/cabins/CabinRow';
 import Spinner from '../../ui/Spinner';
+import { useCabins } from './useCabins';
 // import Table from 'ui/Table';
 // import Menus from 'ui/Menus';
 // import Empty from 'ui/Empty';
@@ -40,14 +40,7 @@ const TableHeader = styled.header`
 // The hotel won't ever have a lot of cabins, so there is no need to paginate. So we will do no pagination, AND we will do filtering and sorting. So here we learn how to do it on the FRONT-END (later in the booking we will do the BACK-END version, which is more real world)
 
 function CabinTable() {
-  const {
-    isLoading,
-    data: cabins,
-    error,
-  } = useQuery({
-    queryKey: ['cabins'],
-    queryFn: getCabins,
-  });
+  const { isLoading, cabins, error } = useCabins();
   if (isLoading) return <Spinner />;
 
   // We enabled Suspense on this query with React Query. This will make it so that this component is SUSPENDED while the data is still loading. We then have to add a <Suspense> boundary somewhere OUTSIDE this component to instruct React to SUSPEND, so to PAUSE, the rendering of this component until the data has been loaded.
