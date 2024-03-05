@@ -15,12 +15,12 @@ const AddCabin = () => {
           <CreateCabinForm />
         </Modal.Window>
 
-        {/* <Modal.Open opens="table">
+        <Modal.Open opens="table">
           <Button>Show table</Button>
         </Modal.Open>
         <Modal.Window name="table">
           <CabinTable />
-        </Modal.Window> */}
+        </Modal.Window>
       </Modal>
     </div>
   );
