@@ -1,5 +1,4 @@
 import Button from '../../ui/Button';
-import { useState } from 'react';
 import CreateCabinForm from './CreateCabinForm';
 import CabinTable from './CabinTable';
 import Modal from '../../ui/Modal';
@@ -13,13 +12,6 @@ const AddCabin = () => {
         </Modal.Open>
         <Modal.Window name="cabin-form">
           <CreateCabinForm />
-        </Modal.Window>
-
-        <Modal.Open opens="table">
-          <Button>Show table</Button>
-        </Modal.Open>
-        <Modal.Window name="table">
-          <CabinTable />
         </Modal.Window>
       </Modal>
     </div>
