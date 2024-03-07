@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import CabinRow from '../../features/cabins/CabinRow';
 import Spinner from '../../ui/Spinner';
 import { useCabins } from './useCabins';
+import Table from '../../ui/Table';
 // import Table from 'ui/Table';
 // import Menus from 'ui/Menus';
 // import Empty from 'ui/Empty';
@@ -12,13 +13,13 @@ import { useCabins } from './useCabins';
 
 // v2
 // Right now this is not really reusable... But we will want to use a similar table for guests as well, but with different columns. ALSO, right now we are defining these columns in BOTH the TableHeader and the CabinRow, which is not good at all. Instead, it would be much better to simply pass the columns into the Table, and the table would give access to the columns to both the header and row. So how can we do that? Well we can again use a compound component! We don't HAVE to do it like this, there's a million ways to implement a table, also without CSS Grid, but this is what I chose
-const Table = styled.div`
-  border: 1px solid var(--color-grey-200);
-  font-size: 1.4rem;
-  background-color: var(--color-grey-0);
-  border-radius: 7px;
-  overflow: hidden;
-`;
+// const Table = styled.div`
+//   border: 1px solid var(--color-grey-200);
+//   font-size: 1.4rem;
+//   background-color: var(--color-grey-0);
+//   border-radius: 7px;
+//   overflow: hidden;
+// `;
 // v1
 const TableHeader = styled.header`
   display: grid;
@@ -73,15 +74,15 @@ function CabinTable() {
   return (
     //   <Menus>
     //     {/* A beautiful API we created here! We could even have defined the widths on the columns in the table header individually, but this keeps it simpler, and I also really like it */}
-    <Table role="table">
-      <TableHeader role="row">
+    <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;">
+      <Table.Header>
         <div></div>
         <div>Cabin</div>
         <div>Capacity</div>
         <div>Price</div>
         <div>Discount</div>
         <div></div>
-      </TableHeader>
+      </Table.Header>
       {cabins.map((cabin) => (
         <CabinRow key={cabin.id} cabin={cabin} />
       ))}
