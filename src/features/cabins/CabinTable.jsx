@@ -83,15 +83,18 @@ function CabinTable() {
         <div>Discount</div>
         <div></div>
       </Table.Header>
-      {cabins.map((cabin) => (
-        <CabinRow key={cabin.id} cabin={cabin} />
-      ))}
-      {/* Render props! */}
-      {/* <Table.Body
-        data={sortedCabins}
-        render={(cabin) => <CabinRow key={cabin.id} cabin={cabin} />}
-      /> */}
+      <Table.Body
+        data={cabins}
+        render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
+      />
     </Table>
+
+    // {/* Render props! */}
+    // {/* <Table.Body
+    //   data={sortedCabins}
+    //   render={(cabin) => <CabinRow key={cabin.id} cabin={cabin} />}
+    // /> */}
+
     //   </Menus>
   );
 }
